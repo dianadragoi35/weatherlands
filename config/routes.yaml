@@ -1,0 +1,9 @@
+index:
+   path: /
+   controller: App\Controller\ApiController::index
+cities:
+   path: /cities
+   controller: App\Controller\ApiController::getCities
+test:
+   path: /test
+   controller: App\Controller\ApiController::test
