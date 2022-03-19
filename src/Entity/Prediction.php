@@ -125,4 +125,31 @@ class Prediction /* implements DenormalizableInterface */
         return $this;
     }   
 
+    public function denormalize($data) {
+
+        $predictions = array();
+        foreach($data['predictions'] as $predictionDate){
+            $prediction = new PredictionTest;
+            if (isset($predictionDate['scale'])) {
+                $prediction->setScale($predictionDate['scale']);
+            }
+            if (isset($predictionDate['city'])) {
+                $prediction->setCity($predictionDate['city']);
+            }
+            if (isset($predictionDate['date'])) {
+                $prediction->setDate($predictionDate['date']);  
+            }
+            foreach($predictionDate['prediction'] as $predictionTime){
+                $pt = new PredictionTime;
+                $pt->setTime($predictionTime['time']);
+                $pt->setValue($predictionTime['value']);
+                $prediction->addPrediction($pt);  
+            }
+
+            $predictions[] = $prediction;
+        }
+        
+
+        return $predictions;
+    }  
 }

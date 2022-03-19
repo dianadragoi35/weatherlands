@@ -1,9 +1,21 @@
 index:
    path: /
    controller: App\Controller\ApiController::index
-cities:
-   path: /cities
-   controller: App\Controller\ApiController::getCities
 test:
    path: /test
    controller: App\Controller\ApiController::test
+city:
+   path: /city/{city}
+   controller: App\Controller\ApiController::getPredictionsByCity
+   defaults:
+      city: 'amsterdam'
+scale:
+   path: /scale/{scale}
+   controller: App\Controller\ApiController::getPredictionsByScale
+   defaults:
+      scale: 'Fahrenheit'
+date:
+   path: /date/{date}
+   controller: App\Controller\ApiController::getPredictionsByDate
+   defaults:
+      date: null

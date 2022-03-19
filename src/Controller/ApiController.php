@@ -4,10 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Prediction;
 use App\Entity\PredictionTest;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 
 class ApiController extends AbstractController
@@ -18,45 +20,11 @@ class ApiController extends AbstractController
     public function index()
     {
         $cities = $this->getCities();
-        $data = '
-        {
-            "predictions": [
-            {
-              "scale": "Fahrenheit",
-              "city": "Amsterdam",
-              "date": "20220319",
-              "prediction": [
-                {
-                  "time": "00:00",
-                  "value": "31"
-                },
-                {
-                  "time": "01:00",
-                  "value": "32"
-                }
-              ]
-            },
-            {
-              "scale": "Fahrenheit",
-              "city": "Rotterdam",
-              "date": "20220320",
-              "prediction": [
-                {
-                  "time": "00:00",
-                  "value": "10"
-                },
-                {
-                  "time": "01:00",
-                  "value": "12"
-                }
-              ]
-            }
-            ]
-        }';     
-        
+
+        $data = file_get_contents('../tests/Resources/predictions.json');
         $data = json_decode($data, true);
 
-        $predictions = PredictionTest::denormalize($data);
+        $predictions = Prediction::denormalize($data);
 
         $predictions = array_filter($predictions, function ( $obj ) {
             return ($obj->getCity() == 'Amsterdam' || $obj->getCity() == 'Rotterdam');
@@ -78,58 +46,79 @@ class ApiController extends AbstractController
         return $cities;
     }
 
+   /**
+     * @Route("/city/{city}", name="city")
+     */
+    public function getPredictionsByCity(Request $request, $city)
+    {
+        $cities = $this->getCities();
+
+        $data = file_get_contents('../tests/Resources/predictions.json');
+        $data = json_decode($data, true);
+
+        $predictions = Prediction::denormalize($data);
+
+        $predictions = array_filter($predictions, function ( $obj ) use ($city) {
+            return (strtolower($obj->getCity()) == $city);
+        });       
+
+        return $this->render('api.html.twig', [
+            'cities'      => $cities,
+            'predictions' => $predictions,
+        ]);
+    }
+
     /**
-     * @Route("/test", name="json")
+     * @Route("/scale/{scale}", name="scale")
+     */
+    public function getPredictionsByScale(Request $request, $scale)
+    {
+        $cities = $this->getCities();
+
+        $data = file_get_contents('../tests/Resources/predictions.json');
+        $data = json_decode($data, true);
+
+        $predictions = Prediction::denormalize($data);
+
+        $predictions = array_filter($predictions, function ( $obj ) use ($scale) {
+            return (strtolower($obj->getScale()) == $scale);
+        });       
+
+        return $this->render('api.html.twig', [
+            'cities'      => $cities,
+            'predictions' => $predictions,
+        ]);
+    }
+
+    /**
+     * @Route("/date/{date}", name="date")
+     */
+    public function getPredictionsByDate(Request $request, $date)
+    {
+        $cities = $this->getCities();
+
+        $data = file_get_contents('../tests/Resources/predictions.json');
+        $data = json_decode($data, true);
+
+        $predictions = Prediction::denormalize($data);
+
+        $predictions = array_filter($predictions, function ( $obj ) use ($date) {
+            return (strtolower($obj->getDate()) == $date);
+        });       
+
+        return $this->render('api.html.twig', [
+            'cities'      => $cities,
+            'predictions' => $predictions,
+        ]);
+    }
+
+    /**
+     * @Route("/test", name="test")
      */
     public function test()
     {
-        
-        $data = '
-        {
-            "predictions": [
-            {
-              "scale": "Fahrenheit",
-              "city": "Amsterdam",
-              "date": "20220319",
-              "prediction": [
-                {
-                  "time": "00:00",
-                  "value": "31"
-                },
-                {
-                  "time": "01:00",
-                  "value": "32"
-                }
-              ]
-            },
-            {
-              "scale": "Fahrenheit",
-              "city": "Rotterdam",
-              "date": "20220320",
-              "prediction": [
-                {
-                  "time": "00:00",
-                  "value": "10"
-                },
-                {
-                  "time": "01:00",
-                  "value": "12"
-                }
-              ]
-            }
-            ]
-        }';     
-        
-        $data = json_decode($data, true);
-
-        $predictions = PredictionTest::denormalize($data);
-
-        $predictions = array_filter($predictions, function ( $obj ) {
-            return $obj->getCity() == 'Amsterdam';
-        });
-
         return $this->render('test.html.twig', [
-            'predictions' => $predictions,
+            'predictions' => null,
         ]);
     }
 

@@ -19,58 +19,13 @@
         <br>
 
         {% for city in cities %}
-            <a href="/cities?city={{city|lower }}" style="padding:10px;"><b>{{ city }}</b></a>
+            <a href="/city/{{city|lower }}" style="padding:10px;"><b>{{ city }}</b></a>
         {% endfor %}
 
         <br>
         <pre>
         {{dump(predictions)}}
         </pre>
-
-        <!-- Nav tabs -->
-        {# <ul class="nav nav-tabs" role="tablist">
-        {% for city in cities %}
-            {% set active="" %}
-            {% if loop.first %}
-                {% set active="active" %}
-            {% endif %}
-            <li class="nav-item">
-                <a class="nav-link {{active}}" data-toggle="tab" href="#{{city}}">{{city}}</a>
-            </li>
-        {% endfor %}  
-        </ul> #}
-
-        <!-- Tab panes -->
-        {# <div class="tab-content">
-        {% for city in cities %}
-            {% set active="fade" %}
-            {% if loop.first %}
-                {% set active="active" %}
-                <div id="{{city}}" class="container tab-pane fade"><br>
-                    <h3>{{ city }} prediction</h3>
-                </div>
-            {% endif %}            
-        {% endfor %} 
-        </div> #}
-
-        {# <div id="Amsterdam" class="container tab-pane active"><br>
-            <h3>Today prediction</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        </div>
-        <div id="Rotterdam" class="container tab-pane fade"><br>
-            <h3>3 days prediction</h3>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-        </div>
-        <div id="Hague" class="container tab-pane fade"><br>
-            <h3>10 days prediction</h3>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-        </div> #}
-        
-            
-
-        {# {% for city in cities %}
-            <button type="button" class="btn btn-primary" styl="width:25%;">{{ city }}</button>
-        {% endfor %}   #}
 
         </div>
     </body>
