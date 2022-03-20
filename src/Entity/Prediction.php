@@ -111,9 +111,9 @@ class Prediction /* implements DenormalizableInterface */
     }
 
     /**
-     * @return Collection|PredictionTime[]
+     * @return array $predictions
      */
-    public function getPredictions(): Collection
+    public function getPredictions()
     {
         return $this->predictions;
     }
@@ -125,11 +125,11 @@ class Prediction /* implements DenormalizableInterface */
         return $this;
     }   
 
-    public function denormalize($data) {
+    public static function denormalize($data) {
 
         $predictions = array();
         foreach($data['predictions'] as $predictionDate){
-            $prediction = new PredictionTest;
+            $prediction = new Prediction;
             if (isset($predictionDate['scale'])) {
                 $prediction->setScale($predictionDate['scale']);
             }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!-- Bootstrap core CSS -->
+   
+<html>
+    <head>
+        <meta charset="UTF-8">
+            <link rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+            integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
+            crossorigin="anonymous">
+            <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    </head>
+    <body>
+       <div class="container">
+        <br>
+        <h1> <img alt="" src="https://media.istockphoto.com/vectors/cute-flat-sun-icon-vector-id1124567572?k=20&m=1124567572&s=170667a&w=0&h=lA1ETCWn25v7maGlMRM3o0pOY3erl5q-JebUviEfwdc=" width="70" height="70"> Weatherlands</h1>
+        <br>       
+        
+        <h2>ENDPOINTS</h2>
+
+        <div class="card card-primary">
+            <div class="card-header">/predictions/{city}-{scale}-{date}</div>
+            <div class="card-body">
+                Retrieves the prediction for a specific city, scale and date.
+                <br>
+                Example: /predictions/amsterdam-Fahrenheit-20220327
+            </div>
+        </div>
+
+        {# {{dump(predictions)}} #}
+
+        </div>
+    </body>
+</html>

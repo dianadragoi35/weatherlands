@@ -18,21 +18,51 @@
         <h1> <img alt="" src="https://media.istockphoto.com/vectors/cute-flat-sun-icon-vector-id1124567572?k=20&m=1124567572&s=170667a&w=0&h=lA1ETCWn25v7maGlMRM3o0pOY3erl5q-JebUviEfwdc=" width="70" height="70"> Weatherlands</h1>
         <br>
 
-        {% for city in cities %}
-            <a href="/city/{{city|lower }}" style="padding:10px;"><b>{{ city }}</b></a>
+        {% for cityName in cities %}
+            {% if cityName|lower == city|lower %}
+                <a href="/predictions/{{cityName|lower}}" style="padding:10px; color: red"><b>{{ cityName }}</b></a>
+            {% else %}
+                <a href="/predictions/{{cityName|lower}}" style="padding:10px;"><b>{{ cityName }}</b></a>
+            {% endif %}
+        {% endfor %}
+
+        <br><br>
+
+        {% for scaleName in scales %}
+            {% if scaleName|lower == scale|lower %}
+                <a href="/predictions/{{city|lower}}-{{scaleName}}" style="padding:10px; color: red"><b>{{ scaleName }}</b></a>
+            {% else %}
+                <a href="/predictions/{{city|lower}}-{{scaleName}}" style="padding:10px;"><b>{{ scaleName }}</b></a>
+            {% endif %}
+        {% endfor %}
+
+        <br><br>
+
+        {% for dayName in nextDays %}
+            {% if dayName|replace({'-': ''}) == date %}
+                <a href="/predictions/{{city|lower}}-{{scale|lower}}-{{dayName|replace({'-': ''})}}" style="padding:10px; color: red"><b>{{ dayName }}</b></a>
+            {% else %}
+                <a href="/predictions/{{city|lower}}-{{scale|lower}}-{{dayName|replace({'-': ''})}}" style="padding:10px;"><b>{{ dayName }}</b></a>
+            {% endif %}
         {% endfor %}
 
         <br>
-        <pre>
+
+
+        <div style="display: flex; margin-top:30px; flex-wrap: wrap;">
+        {% if predictions|length %}
+        {% for prediction in predictions[0] %}
+            <span style="border: 1px solid gray; padding:5px; margin:3px;">{{prediction.time}}<br>{{prediction.value}}</span>
+        {% endfor %}
+        {% endif %}
+        </div>
+
+        <br><br>
+        
+        <h2><a href="/">ENDPOINTS</a></h2>
+
         {{dump(predictions)}}
-        </pre>
 
         </div>
     </body>
 </html>
-
-{# <script>
-    $('.city-label').on('click', function(event) {
-        alert(event.target.value);
-    });
-</script> #}
