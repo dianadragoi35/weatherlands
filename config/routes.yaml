@@ -1,15 +1,32 @@
 index:
    path: /
    controller: App\Controller\ApiController::index
+test:
+   path: /test
+   controller: App\Controller\ApiController::test
 predictions:
-   path: /predictions/{city}-{scale}-{date}
-   controller: App\Controller\ApiController::getPredictions
+   path: /predictions/{city}-{date}-{scale}
+   controller: App\Controller\ApiController::getPredictionsUi
    defaults:
       city: 'amsterdam'
       scale: 'Fahrenheit'
       date: null
-city:
-   path: /city/{city}
-   controller: App\Controller\ApiController::getPredictionsByCity
+view:
+   path: /view/{city}-{date}-{scale}
+   controller: App\Controller\ApiController::getPredictionsApi
    defaults:
       city: 'amsterdam'
+      scale: 'Fahrenheit'
+      date: null
+view-provider:
+   path: /view-provider/{city}-{date}-{scale}
+   controller: App\Controller\ApiController::getPredictionsPerProvider
+   defaults:
+      city: 'amsterdam'
+      scale: 'Fahrenheit'
+      date: null
+pageNotFound:
+    path:  /{path}
+    controller: App\Controller\PageNotFoundController:pageNotFound
+    defaults:
+        path: .*

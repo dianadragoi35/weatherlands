@@ -125,7 +125,10 @@ class Prediction /* implements DenormalizableInterface */
         return $this;
     }   
 
-    public static function denormalize($data) {
+    /* 
+     * @param $data type JSON
+     **/
+    public static function denormalizeJSON($data) {
 
         $predictions = array();
         foreach($data['predictions'] as $predictionDate){
@@ -152,4 +155,67 @@ class Prediction /* implements DenormalizableInterface */
 
         return $predictions;
     }  
+
+    /* 
+     * @param $data type XML
+     **/
+    public static function denormalizeXml($data) {
+
+        $predictions = array();
+        foreach($data['predictions'] as $predictionDate){
+            $prediction = new Prediction;
+            if (isset($predictionDate['@attributes']['scale'])) {
+                $prediction->setScale($predictionDate['@attributes']['scale']);
+            }
+            if (isset($predictionDate['city'])) {
+                $prediction->setCity($predictionDate['city']);
+            }
+            if (isset($predictionDate['date'])) {
+                $prediction->setDate($predictionDate['date']);  
+            }
+            foreach($predictionDate['prediction'] as $predictionTime){
+                $pt = new PredictionTime;
+                $pt->setTime($predictionTime['time']);
+                $pt->setValue($predictionTime['value']);
+                $prediction->addPrediction($pt);  
+            }
+
+            $predictions[] = $prediction;
+        }        
+
+        return $predictions;
+    }  
+
+    /* 
+     * @param $data type CSV
+     **/
+    public static function denormalizeCsv($data) {
+
+        $predictions = array();
+        $prediction = new Prediction;
+        foreach($data as $key => $predictionDate){
+            
+            if ($key == 1) {                
+                $prediction->setScale($predictionDate[0]);
+                $prediction->setCity($predictionDate[1]);
+                $prediction->setDate($predictionDate[2]);    
+                
+                $pt = new PredictionTime;
+                $pt->setTime($predictionDate[3]);
+                $pt->setValue($predictionDate[4]);
+                $prediction->addPrediction($pt); 
+            }
+            else if ($key > 1) {
+                $pt = new PredictionTime;
+                $pt->setTime($predictionDate[3]);
+                $pt->setValue($predictionDate[4]);
+                $prediction->addPrediction($pt); 
+            }            
+
+            
+        } 
+        $predictions[] = $prediction;       
+
+        return $predictions;
+    } 
 }
