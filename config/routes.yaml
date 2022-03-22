@@ -1,9 +1,6 @@
 index:
    path: /
    controller: App\Controller\ApiController::index
-test:
-   path: /test
-   controller: App\Controller\ApiController::test
 predictions:
    path: /predictions/{city}-{date}-{scale}
    controller: App\Controller\ApiController::getPredictionsUi

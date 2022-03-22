@@ -6,11 +6,6 @@ use App\Entity\Prediction;
 use App\Entity\PredictionTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-// use Symfony\Component\HttpFoundation\Request;
-// use Symfony\Component\HttpFoundation\Response;
-// use Symfony\Component\HttpFoundation\JsonResponse;
-// use Symfony\Component\HttpKernel\Exception\HttpException;
-
 
 class ApiController extends AbstractController
 {
@@ -24,27 +19,6 @@ class ApiController extends AbstractController
             'providers'   => null,
         ]);
     }
-
-    /**
-     * @Route("/test", name="test")
-     */
-    public function test()
-    {   
-        
-        $providersPrediction = array();
-        $csvProviders   = $this->getFilesByPattern('*.csv');
-
-        foreach ($csvProviders as $provider) {
-            $aux   = file_get_contents($provider);            
-            $array = array_map("str_getcsv", explode("\n", $aux));           
-            $providersPrediction[] = Prediction::denormalizeCsv($array);
-        }
-
-        return $this->render('base.html.twig',[
-            'predictions' => $providersPrediction,
-        ]);
-    }
-
    
     /**
      * @Route("/predictions/{city}-{date}-{scale}", name="predictions")
@@ -204,8 +178,6 @@ class ApiController extends AbstractController
         }
 
         $providersPrediction = array();
-
-
         $jsonProviders       = $this->getFilesByPattern('*.json');
 
          /* Read data from JSON */
@@ -316,7 +288,7 @@ class ApiController extends AbstractController
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
         $response = curl_exec($ch);
-        $data     = json_decode($response);
+        $data     = simplexml_load_string($response, "SimpleXMLElement", LIBXML_NOCDATA);
 
         return $data;
     }
@@ -332,7 +304,7 @@ class ApiController extends AbstractController
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
         $response = curl_exec($ch);
-        $data     = json_decode($response);
+        $data     = array_map("str_getcsv", explode("\n", $response)); 
 
         return $data;
     }
