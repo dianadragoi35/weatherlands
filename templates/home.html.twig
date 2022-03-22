@@ -16,7 +16,7 @@
        <div class="container">
         <br>
         <h1> <img alt="" src="https://media.istockphoto.com/vectors/cute-flat-sun-icon-vector-id1124567572?k=20&m=1124567572&s=170667a&w=0&h=lA1ETCWn25v7maGlMRM3o0pOY3erl5q-JebUviEfwdc=" width="70" height="70"> Weatherlands
-        <a href="/predictions" style="margin-left: 20px; float:right;">UI</a>
+        <a target="_blank" href="/predictions" style="margin-left: 20px; float:right;">UI</a>
         </h1>
         <br>             
        
@@ -47,7 +47,7 @@
                 <br>
                 The temperature is displayed in both Celsius and Fahrenheit scale.
                 <br>
-                Example: <a href="/predictions/amsterdam-{{ "now"|date("Ymd") }}-fahrenheit">/predictions/amsterdam-{{ "now"|date("Ymd") }}</a>
+                Example: <a target="_blank" href="/predictions/amsterdam-{{ "now"|date("Ymd") }}-fahrenheit">/predictions/amsterdam-{{ "now"|date("Ymd") }}</a>
             </div>
         </div>   
 
@@ -60,7 +60,7 @@
                 <br>
                 Retrieves the average prediction from different providers for a specific city, scale and date - test purposes
                 <br>
-                Example: <a href="/view/amsterdam-{{ "now"|date("Ymd") }}">/view/amsterdam-{{ "now"|date("Ymd") }}</a>
+                Example: <a target="_blank" href="/view/amsterdam-{{ "now"|date("Ymd") }}">/view/amsterdam-{{ "now"|date("Ymd") }}</a>
             </div>
         </div>        
 
@@ -73,7 +73,7 @@
                 <br>
                 Retrieves the time prediction for all providers for a specific city, scale and date - test purposes
                 <br>
-                Example: <a href="/view-provider/amsterdam-{{ "now"|date("Ymd") }}">/view-provider/amsterdam-{{ "now"|date("Ymd") }}</a>
+                Example: <a target="_blank" href="/view-provider/amsterdam-{{ "now"|date("Ymd") }}">/view-provider/amsterdam-{{ "now"|date("Ymd") }}</a>
             </div>
         </div> 
 
@@ -97,7 +97,7 @@
             <tr>
                 <th scope="row">1</th>
                 <td>Data param < today</td>
-                <td><a href="/predictions/amsterdam-{{ "now"|date_modify("-1 day")|date("Ymd") }}-fahrenheit">/predictions/amsterdam-{{ "now"|date_modify("-1 day")|date("Ymd") }}</a></td>
+                <td><a target="_blank" href="/predictions/amsterdam-{{ "now"|date_modify("-1 day")|date("Ymd") }}-fahrenheit">/predictions/amsterdam-{{ "now"|date_modify("-1 day")|date("Ymd") }}</a></td>
                 <td>Get a default date</td>
                 <td>Get the today's date as default</td>
                 <td>Pass</td>
@@ -106,7 +106,7 @@
             <tr>
                 <th scope="row">2</th>
                 <td>Data param > 10 days</td>
-                <td><a href="/predictions/amsterdam-{{ "now"|date_modify("+11 day")|date("Ymd") }}-fahrenheit">/predictions/amsterdam-{{ "now"|date_modify("+11 day")|date("Ymd") }}</a></td>
+                <td><a target="_blank" href="/predictions/amsterdam-{{ "now"|date_modify("+11 day")|date("Ymd") }}-fahrenheit">/predictions/amsterdam-{{ "now"|date_modify("+11 day")|date("Ymd") }}</a></td>
                 <td>Get a default date</td>
                 <td>Get the today's date as default</td>
                 <td>Pass</td>
@@ -115,7 +115,7 @@
             <tr>
                 <th scope="row">3</th>
                 <td>Wrong format for data</td>
-                <td><a href="/predictions/amsterdam-2022">/predictions/amsterdam-2022</a></td>
+                <td><a target="_blank" href="/predictions/amsterdam-2022">/predictions/amsterdam-2022</a></td>
                 <td>Get a default date</td>
                 <td>Get the today's date as default</td>
                 <td>Pass</td>
@@ -124,7 +124,7 @@
             <tr>
                 <th scope="row">4</th>
                 <td>Wrong URL</td>
-                <td><a href="/predict">/predict</a></td>
+                <td><a target="_blank" href="/predict">/predict</a></td>
                 <td>Get a default route</td>
                 <td>Render homepage</td>
                 <td>Pass</td>

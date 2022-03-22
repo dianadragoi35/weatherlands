@@ -21,6 +21,7 @@ class ApiController extends AbstractController
     {       
         return $this->render('home.html.twig',[
             'predictions' => null,
+            'providers'   => null,
         ]);
     }
 
@@ -129,8 +130,9 @@ class ApiController extends AbstractController
             $date = date('Ymd');
         }
 
+        /* Read data from JSON */
         $providersPrediction = array();
-        $jsonProviders   = $this->getFilesByPattern('*.json');
+        $jsonProviders       = $this->getFilesByPattern('*.json');
 
         foreach ($jsonProviders as $provider) {
             $aux = file_get_contents($provider);
@@ -139,16 +141,25 @@ class ApiController extends AbstractController
             $providersPrediction[] = Prediction::denormalizeJSON($aux);
         }
 
-        $xmlProviders   = $this->getFilesByPattern('*.xml');
+        /* Read data from XML */
+        $xmlProviders = $this->getFilesByPattern('*.xml');
 
         foreach ($xmlProviders as $provider) {
-            $aux = file_get_contents($provider);
-
+            $aux  = file_get_contents($provider);
             $xml  = simplexml_load_string($aux, "SimpleXMLElement", LIBXML_NOCDATA);
             $json = json_encode($xml);
             $aux  = json_decode($json,TRUE);
             $providersPrediction[] = Prediction::denormalizeXml($aux);
         }
+
+        /* Read data from CSV */
+        $csvProviders = $this->getFilesByPattern('*.csv');
+
+        foreach ($csvProviders as $provider) {
+            $aux   = file_get_contents($provider);            
+            $array = array_map("str_getcsv", explode("\n", $aux));           
+            $providersPrediction[] = Prediction::denormalizeCsv($array);
+        }               
 
         $predictions = array();
         foreach ($providersPrediction as $providerPrediction) {
@@ -174,6 +185,7 @@ class ApiController extends AbstractController
             'scale'       => $scale,
             'date'        => $date,
             'predictions' => $predictions,
+            'providers'   => null,
         ]);
         
     }
@@ -192,8 +204,11 @@ class ApiController extends AbstractController
         }
 
         $providersPrediction = array();
-        $jsonProviders   = $this->getFilesByPattern('*.json');
 
+
+        $jsonProviders       = $this->getFilesByPattern('*.json');
+
+         /* Read data from JSON */
         foreach ($jsonProviders as $provider) {
             $aux = file_get_contents($provider);
             $aux = json_decode($aux, true);        
@@ -201,15 +216,24 @@ class ApiController extends AbstractController
             $providersPrediction[] = Prediction::denormalizeJSON($aux);
         }
 
-        $xmlProviders   = $this->getFilesByPattern('*.xml');
+        /* Read data from XML */
+        $xmlProviders = $this->getFilesByPattern('*.xml');
 
         foreach ($xmlProviders as $provider) {
-            $aux = file_get_contents($provider);
-
+            $aux  = file_get_contents($provider);
             $xml  = simplexml_load_string($aux, "SimpleXMLElement", LIBXML_NOCDATA);
             $json = json_encode($xml);
             $aux  = json_decode($json,TRUE);
             $providersPrediction[] = Prediction::denormalizeXml($aux);
+        }
+
+        /* Read data from CSV */
+        $csvProviders = $this->getFilesByPattern('*.csv');
+
+        foreach ($csvProviders as $provider) {
+            $aux   = file_get_contents($provider);            
+            $array = array_map("str_getcsv", explode("\n", $aux));           
+            $providersPrediction[] = Prediction::denormalizeCsv($array);
         }
 
         $predictions = array();

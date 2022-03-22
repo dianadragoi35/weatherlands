@@ -12,6 +12,7 @@ class PageNotFoundController extends AbstractController
     {
         return $this->render('home.html.twig',[
             'predictions' => null,
+            'providers'   => null,
         ]);
     }
 
